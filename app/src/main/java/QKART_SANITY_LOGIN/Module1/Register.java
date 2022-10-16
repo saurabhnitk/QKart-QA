@@ -33,12 +33,12 @@ public class Register {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         String test_data_username;
-        if (makeUsernameDynamic)
+        if (makeUsernameDynamic){
             // Concatenate the timestamp to string to form unique timestamp
             test_data_username = Username + "_" + String.valueOf(timestamp.getTime());
-        else
-             test_data_username = Username;// + "_" + String.valueOf(timestamp.getTime());
-
+        }else{
+            test_data_username = Username;
+        }
         // Type the generated username in the username field
         username_txt_box.sendKeys(test_data_username);
 
@@ -51,7 +51,7 @@ public class Register {
 
         // Find the Confirm password text box
         WebElement confirm_password_txt_box;
-         confirm_password_txt_box = this.driver.findElement(By.id("confirmPassword"));
+        confirm_password_txt_box = this.driver.findElement(By.id("confirmPassword"));
 
         // Enter the Confirm Password Value
         confirm_password_txt_box.sendKeys(test_data_password);
