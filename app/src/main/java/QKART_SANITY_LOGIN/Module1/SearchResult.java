@@ -39,9 +39,10 @@ public class SearchResult {
 
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 04: MILESTONE 2
             // Find the link of size chart in the parentElement and click on it
-            WebElement sizeChart = driver.findElement(By.xpath("//button[contains(text(),'Size chart')]"));
-            Thread.sleep(3000);
-            sizeChart.click();
+            WebElement element = parentElement.findElement(By.tagName("button"));
+            element.click();
+            Thread.sleep(2000);
+
             return true;
         } catch (Exception e) {
             System.out.println("Exception while opening Size chart: " + e.getMessage());
@@ -72,7 +73,7 @@ public class SearchResult {
      * Return Boolean based on if the size chart exists
      */
     public Boolean verifySizeChartExists(WebDriver driver) {
-        //Boolean status = false;
+        Boolean status = false;
         try {
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 04: MILESTONE 2
             /*
@@ -80,8 +81,10 @@ public class SearchResult {
              * the element is "SIZE CHART". If the text "SIZE CHART" matches for the
              * element, set status = true , else set to false
              */
-            return (driver.findElement(By.xpath("//button[contains(text(),'Size chart')]")).getText().equalsIgnoreCase("SIZE CHART"));
-            
+            WebElement element = parentElement.findElement(By.tagName("button"));
+            status = element.getText().equals("SIZE CHART");
+
+            return status;
         } catch (Exception e) {
             return false;
         }
