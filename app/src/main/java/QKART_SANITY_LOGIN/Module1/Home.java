@@ -114,16 +114,24 @@ public class Home {
              * 
              * Return true if these operations succeeds
              */
-            WebElement addToKart = driver.findElement(By.xpath("//button[contains(@class,'MuiButton-contained')]"));
-            addToKart.click();
-            System.out.println("Able to find the given product:" +productName);
+            List<WebElement> searchedProducts =
+                    driver.findElements(By.className("MuiCardContent-root"));
+            WebElement addToCarElement = driver.findElement(By.cssSelector(".MuiCardActions-root>button"));
+            for (WebElement searchedProduct : searchedProducts) {
+                WebElement searchProductName = searchedProduct.findElement(By.tagName("p"));
+                // String searchProductName = searchedProduct.findElement(By.tagName("p")).getText();
+                if (searchProductName.getText().trim().equalsIgnoreCase(productName)){
+                    addToCarElement.click();
+                    break;
+                }    
+                
+            }
             return true;
         } catch (Exception e) {
             System.out.println("Exception while performing add to cart: " + e.getMessage());
             return false;
         }
     }
-
     /*
      * Return Boolean denoting the status of clicking on the checkout button
      */
@@ -176,23 +184,26 @@ public class Home {
      * Return Boolean denoting if the cart contains items as expected
      */
     public Boolean verifyCartContents(List<String> expectedCartContents) {
+        boolean status = false;
         try {
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 07: MILESTONE 6
 
             // Get all the cart items as an array of webelements
+            List<WebElement> cartElements = driver.findElements(By.xpath(
+                    "//div[contains(@class,'cart MuiBox-root')]//div[contains(@class,'image')]/following-sibling::div"));
 
             // Iterate through expectedCartContents and check if item with matching product
-            // name is present in the cart
-            //String productName = expectedCartContents.toString();
-            ArrayList<WebElement> list = new ArrayList<>(driver.findElements(By.className("MuiBox-root css-1gjj37g")));
-            for (int i=0; i<list.size(); i++){
-                //System.out.println(list.get(i).getText());
-                if(!list.get(i).getText().equals(expectedCartContents.get(i))){
-                    return false;
+            for (WebElement cartElement : cartElements) {
+                WebElement cartProductName = cartElement.findElement(By.tagName("div"));
+                for(String expectedCartContent:expectedCartContents){
+                    if (cartProductName.getText().equalsIgnoreCase(expectedCartContent)) {
+                        status = true;
+                        break;
+                    }
                 }
             }
-            return true;
-
+            // name is present in the cart
+            return status;
         } catch (Exception e) {
             System.out.println("Exception while verifying cart contents: " + e.getMessage());
             return false;

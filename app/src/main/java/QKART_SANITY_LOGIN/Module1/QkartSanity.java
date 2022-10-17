@@ -239,6 +239,7 @@ public class QkartSanity {
                     logStatus("TestCase 4", "Test Case Fail. Failure to open Size Chart", "FAIL");
                     return false;
                 }
+                break;
 
             } else {
                 logStatus("TestCase 4", "Test Case Fail. Size Chart Link does not exist", "FAIL");
@@ -421,10 +422,10 @@ public class QkartSanity {
             return false;
         }
         homePage.navigateToHome();
-        status = homePage.searchForProduct("Stylecon");
+        status = homePage.searchForProduct("Stylecon 9 Seater RHS Sofa Set");
         homePage.addProductToCart("Stylecon 9 Seater RHS Sofa Set");
-
-        status = homePage.searchForProduct("Xtend");
+        Thread.sleep(3000);
+        status = homePage.searchForProduct("Xtend Smart Watch");
         homePage.addProductToCart("Xtend Smart Watch");
 
         homePage.PerformLogout();

@@ -1,5 +1,6 @@
 package QKART_SANITY_LOGIN.Module1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -71,7 +72,7 @@ public class SearchResult {
      * Return Boolean based on if the size chart exists
      */
     public Boolean verifySizeChartExists(WebDriver driver) {
-        Boolean status = false;
+        //Boolean status = false;
         try {
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 04: MILESTONE 2
             /*
@@ -79,10 +80,10 @@ public class SearchResult {
              * the element is "SIZE CHART". If the text "SIZE CHART" matches for the
              * element, set status = true , else set to false
              */
-            driver.findElement(By.xpath("//button[contains(text(),'Size chart')]"));
-            return true;
+            return (driver.findElement(By.xpath("//button[contains(text(),'Size chart')]")).getText().equalsIgnoreCase("SIZE CHART"));
+            
         } catch (Exception e) {
-            return status;
+            return false;
         }
     }
 
@@ -90,10 +91,11 @@ public class SearchResult {
      * Return Boolean if the table headers and body of the size chart matches the
      * expected values
      */
-    public Boolean validateSizeChartContents(List<String> expectedTableHeaders, List<List<String>> expectedTableBody,
+public Boolean validateSizeChartContents(List<String> expectedTableHeaders, List<List<String>> expectedTableBody,
             WebDriver driver) {
-        Boolean status = true;
-        try {
+        Boolean status =true;
+
+         try {
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 04: MILESTONE 2
             /*
              * Locate the table element when the size chart modal is open
@@ -104,46 +106,41 @@ public class SearchResult {
              * Validate that the contents of expectedTableBody are present in the table body
              * in the same order
              */
-            //expectedTableBody.get(0).get(1);
-            int sizeTableHeader = expectedTableHeaders.size();
-            //this.openSizechart(driver);
-            List<WebElement>tableHead = driver.findElements(By.xpath("//table/thead/tr/th"));
-            if(sizeTableHeader == tableHead.size()){
-                for(int i=0;i<sizeTableHeader;i++){
-                    status = tableHead.get(i).getText().equalsIgnoreCase(expectedTableHeaders.get(i));
+            WebElement sizeChartParent = driver.findElement(By.className("MuiDialog-paperScrollPaper"));
+            WebElement tableElement = sizeChartParent.findElement(By.tagName("table"));
+            List<WebElement> tableHeader = tableElement.findElement(By.tagName("thead")).findElements(By.tagName("th"));
+
+            // Check table headers match
+            String tempHeaderValue;
+            for (int i = 0; i < expectedTableHeaders.size(); i++) {
+                tempHeaderValue = tableHeader.get(i).getText();
+
+                if (!expectedTableHeaders.get(i).equals(tempHeaderValue)) {
+                    System.out.println("Failure in Header Comparison: Expected:  " + expectedTableHeaders.get(i)
+                            + " Actual: " + tempHeaderValue);
+                    status = false;
                 }
             }
-            //Iterate for table body 
-            /*int sizeTableData = expectedTableBody.size();
-            int k=0;
-            for(int i=0; i<ActualTableHeaders.size(); i++){
-                if(!expectedTableHeaders.get(i).equals(ActualTableHeaders.get(i).getText())){
-                    return false;
-                }
-            }
-            List<WebElement> eachrowvalues = null;
-            int rownum = driver.findElements(By.xpath("//tbody/tr")).size();
-            for(int i=0;i<rownum;i++){
-                String xpathv ="//tbody/tr["+i+"]/td";
-                eachrowvalues = driver.findElements(By.xpath(xpathv));
-                for(int j=0; j<eachrowvalues.size(); j++){
-                    if(!expectedTableBody.get(i).get(j).equals(eachrowvalues.get(j).getText())){
-                        return false;
+
+            List<WebElement> tableBodyRows = tableElement.findElement(By.tagName("tbody"))
+                    .findElements(By.tagName("tr"));
+
+            // Check table body match
+            List<WebElement> tempBodyRow;
+            for (int i = 0; i < expectedTableBody.size(); i++) {
+                tempBodyRow = tableBodyRows.get(i).findElements(By.tagName("td"));
+
+                for (int j = 0; j < expectedTableBody.get(i).size(); j++) {
+                    tempHeaderValue = tempBodyRow.get(j).getText();
+
+                    if (!expectedTableBody.get(i).get(j).equals(tempHeaderValue)) {
+                        System.out.println("Failure in Body Comparison: Expected:  " + expectedTableBody.get(i).get(j)
+                                + " Actual: " + tempHeaderValue);
+                        status = false;
                     }
                 }
             }
-            return true;*/
-            int sizeTableData = expectedTableBody.size();
-            int k=0;
-            List<WebElement> tableData = driver.findElements(By.xpath("//table//tr//td"));
-            for (List<String>list : expectedTableBody){
-                for (String item: list){
-                   Thread.sleep(2000); 
-                   status = item.equalsIgnoreCase(tableData.get(k).getText());
-                   return status;
-                }
-                k++;
-            }
+            // CRIO_SOLUTION_END_MODULE_TEST_AUTOMATION
             return status;
 
         } catch (Exception e) {
