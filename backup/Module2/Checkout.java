@@ -26,7 +26,8 @@ public class Checkout {
      * Return Boolean denoting the status of adding a new address
      */
     public Boolean addNewAddress(String addresString) {
-        try {
+         {
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 05: MILESTONE 4
             /*
              * Click on the "Add new address" button, enter the addressString in the address
              * text box and click on the "ADD" button to save the address
@@ -34,9 +35,6 @@ public class Checkout {
             driver.findElement(By.id("add-new-btn")).click();
             driver.findElement(By.xpath("//textarea[contains(@placeholder,'Enter your complete address')]")).sendKeys(addresString);
             Thread.sleep(2000);
-            /*WebDriverWait wait = new WebDriverWait(driver,30);
-            wait.until(ExpectedConditions.visibilityOfElementLocated());*/
-    
             driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div[1]/div/div[2]/div[2]/button[1]")).click();
             return true;
         } catch (Exception e) {
@@ -51,6 +49,7 @@ public class Checkout {
      */
     public Boolean selectAddress(String addressToSelect) {
         try {
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 05: MILESTONE 4
             /*
              * Iterate through all the address boxes to find the address box with matching
              * text, addressToSelect and click on it

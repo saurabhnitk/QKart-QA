@@ -29,7 +29,6 @@ public class Home {
             WebElement logout_button = driver.findElement(By.className("MuiButton-text"));
             logout_button.click();
 
-            // SLEEP_STMT_10: Wait for Logout to complete
             // Wait for Logout to Complete
             Thread.sleep(3000);
 
@@ -49,17 +48,11 @@ public class Home {
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 03: MILESTONE 1
             // Clear the contents of the search box and Enter the product name in the search
             // box
-            /*WebElement elementText = driver.findElement(By.name("search"));
+            WebElement elementText = driver.findElement(By.name("search"));
             elementText.clear();
-            elementText.sendKeys(product);*/
-            driver.findElement(By.xpath("//*[@id='root']/div/div/div[1]/div[2]/div/input")).clear();
-            driver.findElement(By.xpath("//*[@id='root']/div/div/div[1]/div[2]/div/input")).sendKeys(product);
-            WebDriverWait wait = new WebDriverWait(driver,30);
-            wait.until(ExpectedConditions.or(
-                ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='root']/div/div/div[3]/div[1]/div[2]/div/h4")),
-                ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='root']/div/div/div[3]/div[1]/div[2]/div/div[1]/p[1]")),
-                ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='root']/div/div/div[3]/div[1]/div[2]/div/div/div[1]/p[2]"))));
-            //wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id='root']/div/div/div[3]/div[1]/div[2]/div[1]/div/div/p")));
+            elementText.sendKeys(product);
+            //elementText.submit();
+            Thread.sleep(3000);
             return true;
         } catch (Exception e) {
             System.out.println("Error while searching for a product: " + e.getMessage());
@@ -79,7 +72,6 @@ public class Home {
             // search results
             
             searchResults = driver.findElements(By.xpath("//div[@class='MuiCardContent-root css-1qw96cp']"));
-            //searchResults = driver.findElements(By.xpath("//*[@id='root']/div/div/div[3]/div[1]/div[2]/div/div/div[1]/p[1]"));
             return searchResults;
         } catch (Exception e) {
             System.out.println("There were no search results: " + e.getMessage());
@@ -101,7 +93,7 @@ public class Home {
             if (noResultsFound.isDisplayed())
                 status = true;
             else
-                status = false;
+            status = false;
             return status;
         } catch (Exception e) {
             return status;
@@ -174,7 +166,6 @@ public class Home {
                 addButton.click();
                 // Uncomment the below thread
                 Thread.sleep(2000);
-                //wait.until(ExpectedConditions.textToBePresentInElement(findElement(By.className("css-olyig7")), String.valueOf()))
             }
             //WebElement removeButton = driver.findElement(By.xpath("//div[contains(text(),'"+productName+"')]/..//*[@data-testid='RemoveOutlinedIcon']/.."));
             //WebElement cartItem = driver.findElement(By.xpath("//div[contains(text(),'"+productName+"')]/..//div//div//div"));
